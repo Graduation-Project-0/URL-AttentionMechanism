@@ -9,24 +9,24 @@ A deep learning-based system for detecting malicious URLs using PyTorch and Fast
 
 ## 📑 Table of Contents
 
-- [Overview](## overview)
-- [Features](## features)
-- [Architecture](## architecture)
-- [Model Performance](## model-performance)
-- [Dataset](## dataset)
-- [Installation](# #installation)
-- [Usage](## usage)
-  - [Training the Model](## training-the-model)
-  - [Running the API](## running-the-api)
-  - [Making Predictions](## making-predictions)
-- [API Documentation](## api-documentation)
-- [Project Structure](## project-structure)
-- [Feature Engineering](## feature-engineering)
-- [Results & Visualizations](## results--visualizations)
-- [Technical Details](## technical-details)
-- [Future Improvements](## future-improvements)
-- [Contributing](## contributing)
-- [License](## license)
+- [Overview](#overview)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Model Performance](#model-performance)
+- [Dataset](#dataset)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Training the Model](#training-the-model)
+  - [Running the API](#running-the-api)
+  - [Making Predictions](#making-predictions)
+- [API Documentation](#api-documentation)
+- [Project Structure](#project-structure)
+- [Feature Engineering](#feature-engineering)
+- [Results & Visualizations](#results--visualizations)
+- [Technical Details](#technical-details)
+- [Future Improvements](#future-improvements)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## 🎯 Overview
 
@@ -661,19 +661,17 @@ Contributions are welcome! Please follow these steps:
 - Follow PEP 8 style guidelines
 - Add type hints where applicable
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 👥 Authors
 
-- **Graduation Project Team** - _Initial work_
+- **Mohamed Reda** - _Initial work_
 
 ## 🙏 Acknowledgments
 
 - Dataset providers and security researchers
 - PyTorch and FastAPI communities
 - Open-source contributors
+
+---
 
 ## 📊 Quick Stats
 
@@ -689,7 +687,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🌟 Star History
 
 If you find this project useful, please consider giving it a ⭐!
-
----
-
-**Built with ❤️ using PyTorch and FastAPI**
