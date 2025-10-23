@@ -9,24 +9,24 @@ A deep learning-based system for detecting malicious URLs using PyTorch and Fast
 
 ## 📑 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Architecture](#architecture)
-- [Model Performance](#model-performance)
-- [Dataset](#dataset)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Training the Model](#training-the-model)
-  - [Running the API](#running-the-api)
-  - [Making Predictions](#making-predictions)
-- [API Documentation](#api-documentation)
-- [Project Structure](#project-structure)
-- [Feature Engineering](#feature-engineering)
-- [Results & Visualizations](#results--visualizations)
-- [Technical Details](#technical-details)
-- [Future Improvements](#future-improvements)
-- [Contributing](#contributing)
-- [License](#license)
+- [Overview](## overview)
+- [Features](## features)
+- [Architecture](## architecture)
+- [Model Performance](## model-performance)
+- [Dataset](## dataset)
+- [Installation](# #installation)
+- [Usage](## usage)
+  - [Training the Model](## training-the-model)
+  - [Running the API](## running-the-api)
+  - [Making Predictions](## making-predictions)
+- [API Documentation](## api-documentation)
+- [Project Structure](## project-structure)
+- [Feature Engineering](## feature-engineering)
+- [Results & Visualizations](## results--visualizations)
+- [Technical Details](## technical-details)
+- [Future Improvements](## future-improvements)
+- [Contributing](## contributing)
+- [License](## license)
 
 ## 🎯 Overview
 
@@ -674,16 +674,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Dataset providers and security researchers
 - PyTorch and FastAPI communities
 - Open-source contributors
-
-## 📞 Contact
-
-For questions or suggestions:
-
-- **GitHub Issues**: [Create an issue](https://github.com/Graduation-Project-0/EXEs-ViT-approach/issues)
-- **Email**: your-email@example.com
-- **Project Link**: [https://github.com/Graduation-Project-0/EXEs-ViT-approach](https://github.com/Graduation-Project-0/EXEs-ViT-approach)
-
----
 
 ## 📊 Quick Stats
 
