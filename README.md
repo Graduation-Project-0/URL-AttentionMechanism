@@ -344,36 +344,6 @@ curl -X POST "http://localhost:8000/predict-csv" \
   -F "file=@urls.csv"
 ```
 
-#### Python Script
-
-```python
-import torch
-import pandas as pd
-from app.main import extract_features_from_url, MaliciousURLDetector
-import joblib
-
-# Load model
-model = MaliciousURLDetector(input_dim=60)
-checkpoint = torch.load('model_artifacts/best_model.pth')
-model.load_state_dict(checkpoint['model_state_dict'])
-model.eval()
-
-# Load scaler
-scaler = joblib.load('model_artifacts/scaler_20251023_003423.pkl')
-
-# Predict
-url = "http://example.com/path"
-features = extract_features_from_url(url)
-X_scaled = scaler.transform(features.values)
-X_tensor = torch.tensor(X_scaled, dtype=torch.float32)
-
-with torch.no_grad():
-    output = model(X_tensor)
-    prediction = torch.argmax(output, dim=1)
-
-print(f"Prediction: {'Malicious' if prediction == 1 else 'Benign'}")
-```
-
 ## 📚 API Documentation
 
 ### Endpoints
@@ -492,50 +462,6 @@ url/
     └── roc_and_confidence.png         # ROC curve and distributions
 ```
 
-## 🔍 Feature Engineering
-
-### URL Structure Features
-
-```python
-# Example URL: http://suspicious-login.tk/admin/verify?user=test
-```
-
-| Feature Category     | Examples                            |
-| -------------------- | ----------------------------------- |
-| **Length & Entropy** | url_len=45, url_entropy=3.42        |
-| **Character Counts** | url_count_dot=2, url_count_hyphen=1 |
-| **Protocol**         | url_count_https=0, url_count_http=1 |
-| **Sensitive Words**  | url_has_login=1, url_has_admin=1    |
-| **Special Chars**    | url_count_perc=0, url_count_equal=1 |
-
-### Domain Features
-
-| Feature                | Description                                |
-| ---------------------- | ------------------------------------------ |
-| `pdomain_len`          | Length of primary domain                   |
-| `tld_len`              | Length of TLD                              |
-| `tld_is_sus`           | Whether TLD is suspicious (.tk, .ml, etc.) |
-| `pdomain_min_distance` | Levenshtein distance to common domains     |
-| `subdomain_len`        | Subdomain length                           |
-
-### Path Features
-
-| Feature                  | Description                      |
-| ------------------------ | -------------------------------- |
-| `path_len`               | Total path length                |
-| `path_count_no_of_dir`   | Number of directories            |
-| `path_has_singlechardir` | Has single-character directories |
-| `path_count_nonascii`    | Non-ASCII character count        |
-
-### Statistical Features
-
-| Feature         | Description                      |
-| --------------- | -------------------------------- |
-| `url_entropy`   | Shannon entropy of URL           |
-| `url_2bentropy` | 2-gram entropy                   |
-| `url_3bentropy` | 3-gram entropy                   |
-| `url_hamming_*` | Various Hamming distance metrics |
-
 ## 📈 Results & Visualizations
 
 ### Training History
@@ -553,16 +479,9 @@ The training history shows:
 
 ![ROC and Confidence](./plots/roc_and_confidence.png)
 
-- **ROC-AUC Score**: 0.9990 (near-perfect discrimination)
+- **ROC-AUC Score**: 0.9680
 - **Confidence Distribution**: High separation between classes
 - **Calibration**: Well-calibrated probability estimates
-
-### Per-Class Performance
-
-| Class         | Precision | Recall | F1-Score | Support |
-| ------------- | --------- | ------ | -------- | ------- |
-| **Benign**    | 99.78%    | 99.85% | 99.81%   | 64,216  |
-| **Malicious** | 99.83%    | 99.78% | 99.81%   | 33,463  |
 
 ## 🔧 Technical Details
 
@@ -570,13 +489,6 @@ The training history shows:
 
 ```python
 class MaliciousURLDetector(nn.Module):
-    """
-    Enhanced neural network with:
-    - Feature attention mechanism
-    - Residual connections
-    - Batch normalization
-    - Dropout regularization
-    """
     def __init__(self,
                  input_dim=60,
                  hidden_dims=[768, 512, 256, 128],
@@ -619,29 +531,8 @@ class Config:
 ### Planned Features
 
 - [ ] **Real-time URL Scanning**: Integration with web browsers
-- [ ] **Model Ensemble**: Combine multiple models for better accuracy
-- [ ] **LSTM/Transformer**: Experiment with sequence-based architectures
 - [ ] **Active Learning**: Continuously improve with user feedback
-- [ ] **Explainability**: SHAP/LIME integration for feature importance
-- [ ] **Mobile App**: Standalone mobile application
 - [ ] **Browser Extension**: Chrome/Firefox extension
-
-### Model Enhancements
-
-- [ ] **Transfer Learning**: Pre-train on larger datasets
-- [ ] **Multi-task Learning**: Classify URL types simultaneously
-- [ ] **Adversarial Training**: Robust against adversarial examples
-- [ ] **AutoML**: Automated hyperparameter optimization
-- [ ] **Federated Learning**: Privacy-preserving distributed training
-
-### System Improvements
-
-- [ ] **Caching Layer**: Redis for faster repeated predictions
-- [ ] **Load Balancing**: Handle high-traffic scenarios
-- [ ] **Monitoring**: Prometheus/Grafana integration
-- [ ] **Containerization**: Docker deployment
-- [ ] **CI/CD Pipeline**: Automated testing and deployment
-- [ ] **A/B Testing**: Compare model versions in production
 
 ## 🤝 Contributing
 
@@ -660,30 +551,3 @@ Contributions are welcome! Please follow these steps:
 - Update documentation as needed
 - Follow PEP 8 style guidelines
 - Add type hints where applicable
-
-## 👥 Authors
-
-- **Mohamed Reda** - _Initial work_
-
-## 🙏 Acknowledgments
-
-- Dataset providers and security researchers
-- PyTorch and FastAPI communities
-- Open-source contributors
-
----
-
-## 📊 Quick Stats
-
-```
-📦 Total Lines of Code: ~2,500
-🎯 Model Accuracy: 99.82%
-⚡ Inference Time: <10ms per URL
-🔧 Total Features: 60+
-📈 Training Samples: 651,191 URLs
-🏆 ROC-AUC Score: 0.999
-```
-
-## 🌟 Star History
-
-If you find this project useful, please consider giving it a ⭐!
