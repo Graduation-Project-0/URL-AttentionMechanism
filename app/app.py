@@ -42,9 +42,207 @@ SENSITIVE_WORDS = [
 ]
 
 COMMON_DOMAINS = [
-    'google', 'facebook', 'amazon', 'microsoft', 'apple', 'netflix',
+    'google', 'facebook', 'amazon', 'login.microsoft', 'apple', 'netflix',
     'paypal', 'ebay', 'twitter', 'instagram', 'linkedin', 'yahoo'
 ]
+
+# Whitelist of known legitimate domains (high-reputation companies)
+LEGITIMATE_DOMAINS = {
+    # Tech Giants & Cloud Services
+    'google.com', 'microsoft.com', 'apple.com', 'amazon.com', 'meta.com', 'facebook.com',
+    'alphabet.com', 'aws.amazon.com', 'azure.microsoft.com', 'cloud.google.com',
+    'icloud.com', 'live.com', 'msn.com', 'bing.com', 'google.co.uk', 'google.de',
+    'google.fr', 'google.ca', 'google.in', 'google.jp', 'google.com.au', 'google.es',
+    'microsoftonline.com', 'login.microsoftonline.com', 'login.live.com', 'account.microsoft.com',
+    'windowsazure.com', 'azurewebsites.net', 'azurefd.net', 'cloudapp.azure.com',
+    
+    # Social Media & Communication
+    'twitter.com', 'x.com', 'instagram.com', 'linkedin.com', 'pinterest.com', 
+    'snapchat.com', 'tiktok.com', 'whatsapp.com', 'telegram.org', 'discord.com',
+    'reddit.com', 'tumblr.com', 'vimeo.com', 'youtube.com', 'youtu.be',
+    'messenger.com', 'fb.com', 'signal.org', 'line.me', 'wechat.com',
+    'mastodon.social', 'threads.net', 'bluesky.social',
+    
+    # Developer Platforms & Open Source
+    'github.com', 'gitlab.com', 'bitbucket.org', 'stackoverflow.com', 'stackexchange.com',
+    'npmjs.com', 'pypi.org', 'packagist.org', 'nuget.org', 'maven.apache.org',
+    'jetbrains.com', 'visualstudio.com', 'code.visualstudio.com', 'github.io',
+    'readthedocs.org', 'readthedocs.io', 'codepen.io', 'jsfiddle.net', 'replit.com',
+    'codesandbox.io', 'glitch.com', 'heroku.com', 'vercel.app', 'netlify.app',
+    'railway.app', 'render.com', 'fly.io', 'cloudflare.com', 'pages.dev',
+    'sourceforge.net', 'launchpad.net', 'gnu.org', 'fsf.org', 'opensource.org',
+    
+    # Cloud & Enterprise Software
+    'salesforce.com', 'oracle.com', 'ibm.com', 'sap.com', 'vmware.com', 'dell.com',
+    'atlassian.com', 'atlassian.net', 'jira.com', 'confluence.com', 'servicenow.com',
+    'workday.com', 'zendesk.com', 'hubspot.com', 'mailchimp.com', 'intuit.com',
+    'quickbooks.com', 'xero.com', 'freshworks.com', 'freshdesk.com', 'intercom.com',
+    'segment.com', 'mixpanel.com', 'amplitude.com', 'datadog.com', 'splunk.com',
+    'tableau.com', 'powerbi.microsoft.com', 'looker.com', 'grafana.com',
+    
+    # Collaboration & Productivity Tools
+    'slack.com', 'zoom.us', 'teams.microsoft.com', 'webex.com', 'gotomeeting.com',
+    'meet.google.com', 'hangouts.google.com', 'skype.com', 'whereby.com', 'jitsi.org',
+    'notion.so', 'asana.com', 'trello.com', 'monday.com', 'airtable.com', 'clickup.com',
+    'basecamp.com', 'wrike.com', 'smartsheet.com', 'miro.com', 'mural.co',
+    'dropbox.com', 'box.com', 'onedrive.live.com', 'drive.google.com', 'sync.com',
+    'mega.nz', 'pcloud.com', 'tresorit.com', 'egnyte.com', 'sharefile.com',
+    'evernote.com', 'onenote.com', 'simplenote.com', 'bear.app', 'roamresearch.com',
+    
+    # E-commerce & Retail
+    'paypal.com', 'stripe.com', 'square.com', 'shopify.com', 'ebay.com', 'ebay.co.uk',
+    'etsy.com', 'walmart.com', 'target.com', 'bestbuy.com', 'aliexpress.com',
+    'alibaba.com', 'amazon.co.uk', 'amazon.de', 'amazon.ca', 'amazon.in', 'amazon.fr',
+    'amazon.es', 'amazon.it', 'amazon.jp', 'amazon.com.au', 'amazon.com.br',
+    'costco.com', 'samsclub.com', 'homedepot.com', 'lowes.com', 'ikea.com',
+    'wayfair.com', 'overstock.com', 'newegg.com', 'bhphotovideo.com', 'adorama.com',
+    'rakuten.com', 'mercari.com', 'poshmark.com', 'depop.com', 'grailed.com',
+    
+    # Payment & Financial Tech
+    'venmo.com', 'cashapp.com', 'zelle.com', 'payoneer.com', 'wise.com', 'revolut.com',
+    'n26.com', 'monzo.com', 'chime.com', 'plaid.com', 'braintreepayments.com',
+    'adyen.com', 'checkout.com', 'klarna.com', 'afterpay.com', 'affirm.com',
+    
+    # Streaming & Entertainment
+    'netflix.com', 'hulu.com', 'disneyplus.com', 'hbomax.com', 'max.com', 'primevideo.com',
+    'spotify.com', 'soundcloud.com', 'pandora.com', 'twitch.tv', 'kick.com',
+    'steam.com', 'steampowered.com', 'deezer.com', 'tidal.com', 'applemusic.com',
+    'music.apple.com', 'music.youtube.com', 'crunchyroll.com', 'funimation.com',
+    'paramountplus.com', 'peacocktv.com', 'showtime.com', 'starz.com', 'sling.com',
+    'vudu.com', 'fandango.com', 'imdb.com', 'rottentomatoes.com', 'metacritic.com',
+    
+    # Education & Learning
+    'wikipedia.org', 'wikimedia.org', 'coursera.org', 'udemy.com', 'edx.org', 'udacity.com',
+    'khanacademy.org', 'skillshare.com', 'pluralsight.com', 'linkedin-learning.com',
+    'masterclass.com', 'brilliant.org', 'codecademy.com', 'freecodecamp.org', 'w3schools.com',
+    'mdn.mozilla.org', 'developer.mozilla.org', 'geeksforgeeks.org', 'tutorialspoint.com',
+    'mit.edu', 'stanford.edu', 'harvard.edu', 'yale.edu', 'princeton.edu', 'columbia.edu',
+    'berkeley.edu', 'caltech.edu', 'uchicago.edu', 'upenn.edu', 'cornell.edu',
+    'oxford.ac.uk', 'cambridge.ac.uk', 'imperial.ac.uk', 'ucl.ac.uk', 'ed.ac.uk',
+    'cambridge.org', 'oup.com', 'springer.com', 'sciencedirect.com', 'jstor.org',
+    'researchgate.net', 'academia.edu', 'scholar.google.com', 'arxiv.org', 'ssrn.com',
+    'medium.com', 'substack.com', 'dev.to', 'hashnode.com', 'hackernoon.com',
+    
+    # News & Media
+    'nytimes.com', 'washingtonpost.com', 'theguardian.com', 'bbc.com', 'bbc.co.uk',
+    'cnn.com', 'foxnews.com', 'nbcnews.com', 'cbsnews.com', 'abcnews.go.com',
+    'reuters.com', 'apnews.com', 'bloomberg.com', 'wsj.com', 'ft.com', 'forbes.com',
+    'businessinsider.com', 'economist.com', 'time.com', 'newsweek.com', 'usatoday.com',
+    'latimes.com', 'chicagotribune.com', 'sfchronicle.com', 'bostonglobe.com',
+    'techcrunch.com', 'wired.com', 'theverge.com', 'engadget.com', 'arstechnica.com',
+    'cnet.com', 'zdnet.com', 'pcmag.com', 'tomshardware.com', 'anandtech.com',
+    'vice.com', 'vox.com', 'buzzfeed.com', 'huffpost.com', 'politico.com', 'thehill.com',
+    
+    # Software & Design Tools
+    'adobe.com', 'adobelogin.com', 'autodesk.com', 'figma.com', 'canva.com', 'sketch.com',
+    'invisionapp.com', 'zeplin.io', 'framer.com', 'webflow.com', 'squarespace.com',
+    'wix.com', 'wordpress.com', 'wordpress.org', 'wp.com', 'tumblr.com', 'blogger.com',
+    'ghost.org', 'drupal.org', 'joomla.org', 'contentful.com', 'sanity.io', 'strapi.io',
+    'unity.com', 'unrealengine.com', 'godotengine.org', 'blender.org', 'gimp.org',
+    'inkscape.org', 'krita.org', 'affinity.serif.com', 'corel.com', 'sketchup.com',
+    
+    # DevOps & Infrastructure
+    'docker.com', 'kubernetes.io', 'terraform.io', 'ansible.com', 'puppet.com', 'chef.io',
+    'jenkins.io', 'travis-ci.org', 'circleci.com', 'gitlab.com', 'actions.github.com',
+    'buildkite.com', 'teamcity.jetbrains.com', 'bamboo.atlassian.com', 'octopus.com',
+    'pagerduty.com', 'opsgenie.com', 'statuspage.io', 'pingdom.com', 'newrelic.com',
+    'sentry.io', 'rollbar.com', 'bugsnag.com', 'loggly.com', 'papertrail.com',
+    'sumologic.com', 'elastic.co', 'mongodb.com', 'redis.io', 'postgresql.org',
+    
+    # Security & Privacy
+    'okta.com', 'auth0.com', 'duo.com', 'onelogin.com', 'ping.com', 'jumpcloud.com',
+    'lastpass.com', '1password.com', 'bitwarden.com', 'dashlane.com', 'keepass.info',
+    'nordvpn.com', 'expressvpn.com', 'surfshark.com', 'protonvpn.com', 'privatevpn.com',
+    'malwarebytes.com', 'norton.com', 'mcafee.com', 'kaspersky.com', 'bitdefender.com',
+    'avast.com', 'avg.com', 'sophos.com', 'crowdstrike.com', 'fortinet.com',
+    'cloudflare.com', 'akamai.com', 'fastly.com', 'imperva.com', 'f5.com',
+    
+    # Domain & Hosting
+    'namecheap.com', 'godaddy.com', 'name.com', 'gandi.net', 'hover.com', 'dynadot.com',
+    'bluehost.com', 'hostgator.com', 'dreamhost.com', 'siteground.com', 'inmotion.com',
+    'a2hosting.com', 'wpengine.com', 'kinsta.com', 'cloudways.com', 'digitalocean.com',
+    'linode.com', 'vultr.com', 'ovh.com', 'hetzner.com', 'contabo.com',
+    
+    # Email & Communication
+    'gmail.com', 'googlemail.com', 'outlook.com', 'hotmail.com', 'yahoo.com', 'aol.com',
+    'protonmail.com', 'proton.me', 'tutanota.com', 'mailbox.org', 'posteo.de',
+    'zoho.com', 'fastmail.com', 'mail.com', 'gmx.com', 'yandex.com', 'icloud.com',
+    'office.com', 'office365.com', 'exchange.microsoft.com', 'mail.google.com',
+    'docs.google.com', 'sheets.google.com', 'slides.google.com', 'forms.google.com',
+    'calendar.google.com', 'keep.google.com', 'sites.google.com',
+    'sendgrid.com', 'mailgun.com', 'mailjet.com', 'sendinblue.com', 'constantcontact.com',
+    
+    # Gaming & Entertainment
+    'epicgames.com', 'unrealengine.com', 'fortnite.com', 'riotgames.com', 'leagueoflegends.com',
+    'blizzard.com', 'battle.net', 'ea.com', 'origin.com', 'ubisoft.com', 'ubi.com',
+    'rockstargames.com', 'square-enix.com', 'squareenix.com', 'bandainamco.com',
+    'nintendo.com', 'nintendo.co.jp', 'playstation.com', 'sony.com', 'xbox.com',
+    'minecraft.net', 'mojang.com', 'roblox.com', 'unity.com', 'itch.io', 'gog.com',
+    'humblebundle.com', 'greenmangaming.com', 'fanatical.com', 'gamersgate.com',
+    'discord.gg', 'discordapp.com', 'teamspeak.com', 'ventrilo.com', 'mumble.info',
+    
+    # Financial Services & Banking
+    'chase.com', 'jpmorganchase.com', 'bankofamerica.com', 'wellsfargo.com', 'citibank.com',
+    'citi.com', 'usbank.com', 'pnc.com', 'truist.com', 'tdbank.com', 'bbt.com',
+    'americanexpress.com', 'amex.com', 'capitalone.com', 'discover.com', 'synchrony.com',
+    'fidelity.com', 'schwab.com', 'tdameritrade.com', 'etrade.com', 'interactivebrokers.com',
+    'robinhood.com', 'webull.com', 'coinbase.com', 'binance.com', 'kraken.com',
+    'gemini.com', 'blockchain.com', 'crypto.com', 'ftx.com', 'bitfinex.com',
+    'vanguard.com', 'blackrock.com', 'statestreet.com', 'morganstanley.com',
+    'goldmansachs.com', 'jpmorganonline.com', 'merrilledge.com', 'ally.com',
+    
+    # Government & Official Organizations
+    'gov.uk', 'gov.ie', 'gov.au', 'gov.ca', 'gov.nz', 'gov.sg', 'gov.in',
+    'usa.gov', 'whitehouse.gov', 'state.gov', 'defense.gov', 'justice.gov',
+    'irs.gov', 'ssa.gov', 'cdc.gov', 'fda.gov', 'epa.gov', 'nih.gov', 'nasa.gov',
+    'sec.gov', 'ftc.gov', 'fcc.gov', 'fema.gov', 'dhs.gov', 'treasury.gov',
+    'europa.eu', 'ec.europa.eu', 'un.org', 'who.int', 'unicef.org', 'unesco.org',
+    'worldbank.org', 'imf.org', 'oecd.org', 'wto.org', 'nato.int', 'icrc.org',
+    'redcross.org', 'ifrc.org', 'redcrossblood.org', 'savethechildren.org',
+    'oxfam.org', 'msf.org', 'doctorswithoutborders.org', 'amnesty.org', 'hrw.org',
+    'mozilla.org', 'apache.org', 'linux.org', 'debian.org', 'ubuntu.com', 'redhat.com',
+    'kernel.org', 'python.org', 'nodejs.org', 'rust-lang.org', 'golang.org', 'php.net',
+    
+    # Travel & Transportation
+    'booking.com', 'priceline.com', 'hotels.com', 'expedia.com', 'hotwire.com', 'kayak.com',
+    'trivago.com', 'tripadvisor.com', 'airbnb.com', 'vrbo.com', 'homeaway.com',
+    'agoda.com', 'hostelworld.com', 'hipmunk.com', 'skyscanner.com', 'orbitz.com',
+    'uber.com', 'lyft.com', 'doordash.com', 'grubhub.com', 'ubereats.com', 'postmates.com',
+    'instacart.com', 'shipt.com', 'gopuff.com', 'getir.com', 'deliveroo.com',
+    'delta.com', 'united.com', 'american.com', 'aa.com', 'southwest.com', 'jetblue.com',
+    'alaskaair.com', 'spirit.com', 'frontier.com', 'britishairways.com', 'lufthansa.com',
+    'airfrance.com', 'klm.com', 'emirates.com', 'qantas.com', 'ana.co.jp', 'jal.co.jp',
+    'marriott.com', 'hilton.com', 'hyatt.com', 'ihg.com', 'choicehotels.com',
+    'bestwestern.com', 'wyndham.com', 'radisson.com', 'accor.com', 'mgmresorts.com',
+    'caesars.com', 'subway.com', 'hertz.com', 'enterprise.com', 'avis.com', 'budget.com',
+    
+    # Health & Medical
+    'mayoclinic.org', 'clevelandclinic.org', 'hopkinsmedicine.org', 'webmd.com',
+    'healthline.com', 'medlineplus.gov', 'nih.gov', 'cdc.gov', 'fda.gov', 'who.int',
+    'drugs.com', 'rxlist.com', 'cvs.com', 'walgreens.com', 'riteaid.com',
+    'kaiser.com', 'kp.org', 'bcbs.com', 'unitedhealthcare.com', 'aetna.com',
+    'cigna.com', 'humana.com', 'anthem.com', 'wellcare.com', 'centene.com',
+    
+    # Telecommunications
+    'att.com', 'verizon.com', 'vzw.com', 't-mobile.com', 'sprint.com', 'xfinity.com',
+    'comcast.com', 'spectrum.com', 'cox.com', 'centurylink.com', 'frontier.com',
+    'vodafone.com', 'orange.com', 'telefonica.com', 'bt.com', 'sky.com', 'virginmedia.com',
+    
+    # Additional Major Brands
+    'coca-cola.com', 'pepsi.com', 'starbucks.com', 'mcdonalds.com', 'burgerking.com',
+    'tacobell.com', 'pizzahut.com', 'kfc.com', 'chipotle.com', 'dominos.com',
+    'nike.com', 'adidas.com', 'puma.com', 'underarmour.com', 'reebok.com',
+    'gap.com', 'oldnavy.com', 'bananarepublic.com', 'zara.com', 'hm.com', 'uniqlo.com',
+    'macys.com', 'nordstrom.com', 'bloomingdales.com', 'saksfifthavenue.com', 'neimanmarcus.com',
+    'toyota.com', 'ford.com', 'gm.com', 'honda.com', 'nissan.com', 'bmw.com',
+    'mercedes-benz.com', 'audi.com', 'volkswagen.com', 'tesla.com', 'porsche.com'
+}
+
+# URL shortener domains - exact matches only
+URL_SHORTENERS = {
+    'bit.ly', 'tinyurl.com', 'goo.gl', 't.co', 'ow.ly', 'is.gd',
+    'buff.ly', 'adf.ly', 'short.link', 'tiny.cc', 'rb.gy'
+}
 
 class MaliciousURLDetector(nn.Module):
     def __init__(self, input_dim, hidden_dims=[768, 512, 256, 128], dropout_rate=0.4, use_batch_norm=True):
@@ -126,10 +324,10 @@ async def lifespan(app: FastAPI):
     
     try:
         TIMESTAMP = "20251023_003423"
-        MODEL_PATH = r"H:\GradProject\url\model_artifacts\best_model.pth"
-        FEATURES_PATH = rf"H:\GradProject\url\model_artifacts\features_{TIMESTAMP}.pkl"
-        SCALER_PATH = rf"H:\GradProject\url\model_artifacts\scaler_{TIMESTAMP}.pkl"
-        CONFIG_PATH = rf"H:\GradProject\url\model_artifacts\config_{TIMESTAMP}.pkl"
+        MODEL_PATH = r"D:\GradProject\url\model_artifacts\best_model.pth"
+        FEATURES_PATH = rf"D:\GradProject\url\model_artifacts\features_{TIMESTAMP}.pkl"
+        SCALER_PATH = rf"D:\GradProject\url\model_artifacts\scaler_{TIMESTAMP}.pkl"
+        CONFIG_PATH = rf"D:\GradProject\url\model_artifacts\config_{TIMESTAMP}.pkl"
         
         checkpoint = torch.load(MODEL_PATH, map_location='cpu', weights_only=False)
         
@@ -141,10 +339,25 @@ async def lifespan(app: FastAPI):
             feature_names = [f for f in feature_names if f != 'tld']
         
         import os
-        import joblib
+        import gc  # Garbage collector
         if os.path.exists(SCALER_PATH):
-            scaler = joblib.load(SCALER_PATH)
-            logger.info("✓ Scaler loaded successfully")
+            try:
+                # Force garbage collection before loading to free memory
+                gc.collect()
+                
+                # Import joblib only when needed to reduce memory overhead
+                import joblib
+                scaler = joblib.load(SCALER_PATH)
+                logger.info("✓ Scaler loaded successfully")
+            except MemoryError:
+                logger.error("MemoryError: Not enough memory to load scaler. Running without scaling.")
+                logger.info("Consider: 1) Closing other applications, 2) Increasing system memory, or 3) Recreating scaler with compression")
+                scaler = None
+                gc.collect()  # Clean up after failed attempt
+            except Exception as e:
+                logger.error(f"Error loading scaler: {e}. Running without scaling.")
+                scaler = None
+                gc.collect()
         else:
             scaler = None
             logger.warning("Scaler file not found. Running without scaling.")
@@ -313,13 +526,26 @@ def count_sensitive_words(text, word_list):
     text_lower = text.lower()
     return sum(1 for word in word_list if word in text_lower)
 
+def is_legitimate_domain(hostname):
+    """Check if hostname belongs to a known legitimate domain"""
+    hostname_lower = hostname.lower()
+    for legit_domain in LEGITIMATE_DOMAINS:
+        if hostname_lower == legit_domain or hostname_lower.endswith('.' + legit_domain):
+            return True
+    return False
+
 def extract_features_from_url(url: str) -> pd.DataFrame:
     features = {}
     
     parsed = urlparse(url)
     hostname = parsed.netloc
     path = parsed.path
-    query = parsed.query
+    
+    # Extract base URL only (scheme + netloc + path)
+    base_url = f"{parsed.scheme}://{hostname}{path}"
+    
+    # Use base_url for all feature extraction instead of full url
+    query = ''  # Ignore query parameters
     
     domain_parts = hostname.split('.')
     
@@ -332,51 +558,55 @@ def extract_features_from_url(url: str) -> pd.DataFrame:
         pdomain = ''
         subdomain = ''
     
-    features['url_has_login'] = int('login' in url.lower())
-    features['url_has_client'] = int('client' in url.lower())
-    features['url_has_server'] = int('server' in url.lower())
-    features['url_has_admin'] = int('admin' in url.lower())
+    features['url_has_login'] = int('login' in base_url.lower())
+    features['url_has_client'] = int('client' in base_url.lower())
+    features['url_has_server'] = int('server' in base_url.lower())
+    features['url_has_admin'] = int('admin' in base_url.lower())
     
     ip_pattern = r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'
     features['url_has_ip'] = int(bool(re.search(ip_pattern, hostname)))
     
-    shorteners = ['bit.ly', 'tinyurl', 'goo.gl', 't.co', 'ow.ly', 'is.gd']
-    features['url_isshorted'] = int(any(short in hostname.lower() for short in shorteners))
+    # Fix: Check for exact domain match, not substring
+    hostname_lower = hostname.lower()
+    features['url_isshorted'] = int(any(
+        hostname_lower == shortener or hostname_lower.endswith('.' + shortener)
+        for shortener in URL_SHORTENERS
+    ))
     
-    features['url_len'] = len(url)
-    features['url_entropy'] = calculate_entropy(url)
+    features['url_len'] = len(base_url)
+    features['url_entropy'] = calculate_entropy(base_url)
     
-    h1, h00, h10, h01, h11 = calculate_hamming_features(url)
+    h1, h00, h10, h01, h11 = calculate_hamming_features(base_url)
     features['url_hamming_1'] = h1
     features['url_hamming_00'] = h00
     features['url_hamming_10'] = h10
     features['url_hamming_01'] = h01
     features['url_hamming_11'] = h11
     
-    features['url_2bentropy'] = calculate_n_gram_entropy(url, 2)
-    features['url_3bentropy'] = calculate_n_gram_entropy(url, 3)
+    features['url_2bentropy'] = calculate_n_gram_entropy(base_url, 2)
+    features['url_3bentropy'] = calculate_n_gram_entropy(base_url, 3)
     
-    features['url_count_dot'] = url.count('.')
-    features['url_count_https'] = url.lower().count('https')
-    features['url_count_http'] = url.lower().count('http')
-    features['url_count_perc'] = url.count('%')
-    features['url_count_hyphen'] = url.count('-')
-    features['url_count_www'] = url.lower().count('www')
-    features['url_count_atrate'] = url.count('@')
-    features['url_count_hash'] = url.count('#')
-    features['url_count_semicolon'] = url.count(';')
-    features['url_count_underscore'] = url.count('_')
-    features['url_count_ques'] = url.count('?')
-    features['url_count_equal'] = url.count('=')
-    features['url_count_amp'] = url.count('&')
+    features['url_count_dot'] = base_url.count('.')
+    features['url_count_https'] = base_url.lower().count('https')
+    features['url_count_http'] = base_url.lower().count('http')
+    features['url_count_perc'] = base_url.count('%')
+    features['url_count_hyphen'] = base_url.count('-')
+    features['url_count_www'] = base_url.lower().count('www')
+    features['url_count_atrate'] = base_url.count('@')
+    features['url_count_hash'] = 0  # Always 0 since we strip hash
+    features['url_count_semicolon'] = base_url.count(';')
+    features['url_count_underscore'] = base_url.count('_')
+    features['url_count_ques'] = 0  # Always 0 since we strip query params
+    features['url_count_equal'] = 0  # Always 0 since we strip query params
+    features['url_count_amp'] = 0  # Always 0 since we strip query params
     
-    features['url_count_letter'] = sum(1 for c in url if c.isalpha())
-    features['url_count_digit'] = sum(1 for c in url if c.isdigit())
+    features['url_count_letter'] = sum(1 for c in base_url if c.isalpha())
+    features['url_count_digit'] = sum(1 for c in base_url if c.isdigit())
     
-    features['url_count_sensitive_financial_words'] = count_sensitive_words(url, SENSITIVE_FINANCIAL_WORDS)
-    features['url_count_sensitive_words'] = count_sensitive_words(url, SENSITIVE_WORDS)
+    features['url_count_sensitive_financial_words'] = count_sensitive_words(base_url, SENSITIVE_FINANCIAL_WORDS)
+    features['url_count_sensitive_words'] = count_sensitive_words(base_url, SENSITIVE_WORDS)
     
-    features['url_nunique_chars_ratio'] = len(set(url)) / len(url) if len(url) > 0 else 0
+    features['url_nunique_chars_ratio'] = len(set(base_url)) / len(base_url) if len(base_url) > 0 else 0
     
     features['path_len'] = len(path)
     features['path_count_no_of_dir'] = path.count('/') - 1 if path else 0
@@ -392,8 +622,9 @@ def extract_features_from_url(url: str) -> pd.DataFrame:
     features['path_has_singlechardir'] = int(any(len(d) == 1 for d in path_dirs))
     features['path_has_upperdir'] = int(any(d[0].isupper() for d in path_dirs if d))
     
-    features['query_len'] = len(query)
-    features['query_count_components'] = len(parse_qs(query)) if query else 0
+    # Query parameters are ignored, so these features are always 0
+    features['query_len'] = 0
+    features['query_count_components'] = 0
     
     features['pdomain_len'] = len(pdomain)
     features['pdomain_count_hyphen'] = pdomain.count('-')
@@ -434,14 +665,6 @@ async def root():
             "attention_mechanism": "enhanced",
             "residual_connections": True
         },
-        "enhancements": [
-            "Feature scaling with StandardScaler",
-            "Enhanced attention mechanism",
-            "Improved residual connections",
-            "Gradient clipping",
-            "Label smoothing",
-            "Class weight balancing"
-        ],
         "endpoints": {
             "predict": "/predict (POST) - add 'debug: true' for detailed info",
             "predict_csv": "/predict-csv (POST) - Upload CSV file with features",
@@ -459,9 +682,12 @@ async def predict_url(request: URLRequest):
         )
     
     try:
+        # Extract base URL (without query params and hash)
+        parsed = urlparse(request.url)
+        base_url = f"{parsed.scheme}://{parsed.netloc}{parsed.path}"
+        
         features_df = extract_features_from_url(request.url)
         
-        parsed = urlparse(request.url)
         hostname = parsed.netloc
         domain_parts = hostname.split('.')
         original_tld = domain_parts[-1] if len(domain_parts) >= 1 else ''
@@ -479,10 +705,26 @@ async def predict_url(request: URLRequest):
         
         raw_features = features_df.iloc[0].to_dict()
         
+        # Check if domain is in legitimate whitelist
+        is_legit_domain = is_legitimate_domain(hostname)
+        
         # scaling
         if scaler is not None:
             X_scaled = scaler.transform(features_df.values)
             X_for_model = X_scaled
+            
+            # Detect extreme scaled values that may indicate scaler issues
+            extreme_features = []
+            for i, (name, scaled_val) in enumerate(zip(feature_names, X_scaled[0])):
+                if abs(scaled_val) > 100:  # Flag unusually large scaled values
+                    extreme_features.append({
+                        'name': name,
+                        'raw': raw_features[name],
+                        'scaled': scaled_val
+                    })
+            
+            if extreme_features and request.debug:
+                logger.warning(f"⚠️ Extreme scaled values detected (may indicate scaler fitting issues): {extreme_features}")
         else:
             X_for_model = features_df.values
         
@@ -497,10 +739,19 @@ async def predict_url(request: URLRequest):
         probs = probabilities.cpu().numpy()[0]
         raw_outputs = outputs.cpu().numpy()[0]
         
-        is_malicious = bool(prediction == 1)
-        confidence = float(probs[prediction])
         malicious_prob = float(probs[1])
         benign_prob = float(probs[0])
+        
+        is_malicious = bool(prediction == 1)
+        confidence = malicious_prob if is_malicious else benign_prob
+        
+        # Apply legitimate domain override if confidence is not extremely high
+        if is_legit_domain and is_malicious and malicious_prob < 0.995:
+            logger.info(f"✓ Legitimate domain detected: {hostname}. Adjusting prediction.")
+            # Don't completely override, but flag for review
+            is_malicious = False
+            confidence = benign_prob
+            prediction = 0
         
         # Debug
         debug_info = None
@@ -512,6 +763,10 @@ async def predict_url(request: URLRequest):
             feature_importance.sort(key=lambda x: abs(x[1]), reverse=True)
             
             debug_info = {
+                "domain_reputation": {
+                    "is_whitelisted": is_legit_domain,
+                    "whitelist_applied": is_legit_domain and malicious_prob < 0.995
+                },
                 "tld_info": {
                     "original": original_tld,
                     "tld_is_suspicious": bool(raw_features.get('tld_is_sus', 0))
@@ -558,16 +813,21 @@ async def predict_url(request: URLRequest):
             benign_probability=round(benign_prob, 4),
             timestamp=datetime.now().isoformat(),
             details={
-                "url_length": len(request.url),
+                "original_url": request.url,
+                "analyzed_url": base_url,
+                "url_length": len(base_url),
                 "domain": parsed.netloc,
                 "tld": original_tld,
+                "is_whitelisted_domain": is_legit_domain,
                 "has_suspicious_keywords": bool(raw_features.get('url_count_sensitive_words', 0) > 0),
                 "has_ip_address": bool(raw_features.get('url_has_ip', 0)),
                 "is_shortened": bool(raw_features.get('url_isshorted', 0)),
                 "suspicious_tld": bool(raw_features.get('tld_is_sus', 0)),
                 "url_entropy": round(float(raw_features.get('url_entropy', 0)), 4),
                 "scaling_applied": scaler is not None,
-                "device_used": str(device)
+                "device_used": str(device),
+                "note": "Prediction based on base URL only (parameters and hash excluded)" + 
+                       (" | Whitelist override applied" if is_legit_domain and malicious_prob < 0.995 and is_malicious == False else "")
             },
             debug_info=debug_info
         )
@@ -640,8 +900,11 @@ async def predict_csv(file: UploadFile = File(...)):
         benign_count = 0
         
         for i in range(len(df)):
-            pred = int(predictions_np[i])
-            is_malicious = bool(pred == 1)
+            malicious_prob = float(probabilities_np[i][1])
+            benign_prob = float(probabilities_np[i][0])
+            
+            is_malicious = bool(predictions_np[i] == 1)
+            confidence = malicious_prob if is_malicious else benign_prob
             
             if is_malicious:
                 malicious_count += 1
@@ -653,9 +916,9 @@ async def predict_csv(file: UploadFile = File(...)):
                 "url": original_urls[i],
                 "prediction": "Malicious" if is_malicious else "Benign",
                 "is_malicious": is_malicious,
-                "confidence": round(float(probabilities_np[i][pred]), 4),
-                "malicious_probability": round(float(probabilities_np[i][1]), 4),
-                "benign_probability": round(float(probabilities_np[i][0]), 4)
+                "confidence": round(confidence, 4),
+                "malicious_probability": round(malicious_prob, 4),
+                "benign_probability": round(benign_prob, 4)
             }
             results.append(result)
         
@@ -705,6 +968,6 @@ if __name__ == "__main__":
     uvicorn.run(
         app, 
         host="0.0.0.0", 
-        port=8000,
+        port=8002,
         log_level="info"
     )
