@@ -17,6 +17,7 @@ import math
 from contextlib import asynccontextmanager
 import logging
 import io
+from legitimate_domains import LEGITIMATE_DOMAINS, URL_SHORTENERS
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -46,203 +47,6 @@ COMMON_DOMAINS = [
     'paypal', 'ebay', 'twitter', 'instagram', 'linkedin', 'yahoo'
 ]
 
-# Whitelist of known legitimate domains (high-reputation companies)
-LEGITIMATE_DOMAINS = {
-    # Tech Giants & Cloud Services
-    'google.com', 'microsoft.com', 'apple.com', 'amazon.com', 'meta.com', 'facebook.com',
-    'alphabet.com', 'aws.amazon.com', 'azure.microsoft.com', 'cloud.google.com',
-    'icloud.com', 'live.com', 'msn.com', 'bing.com', 'google.co.uk', 'google.de',
-    'google.fr', 'google.ca', 'google.in', 'google.jp', 'google.com.au', 'google.es',
-    'microsoftonline.com', 'login.microsoftonline.com', 'login.live.com', 'account.microsoft.com',
-    'windowsazure.com', 'azurewebsites.net', 'azurefd.net', 'cloudapp.azure.com',
-    
-    # Social Media & Communication
-    'twitter.com', 'x.com', 'instagram.com', 'linkedin.com', 'pinterest.com', 
-    'snapchat.com', 'tiktok.com', 'whatsapp.com', 'telegram.org', 'discord.com',
-    'reddit.com', 'tumblr.com', 'vimeo.com', 'youtube.com', 'youtu.be',
-    'messenger.com', 'fb.com', 'signal.org', 'line.me', 'wechat.com',
-    'mastodon.social', 'threads.net', 'bluesky.social',
-    
-    # Developer Platforms & Open Source
-    'github.com', 'gitlab.com', 'bitbucket.org', 'stackoverflow.com', 'stackexchange.com',
-    'npmjs.com', 'pypi.org', 'packagist.org', 'nuget.org', 'maven.apache.org',
-    'jetbrains.com', 'visualstudio.com', 'code.visualstudio.com', 'github.io',
-    'readthedocs.org', 'readthedocs.io', 'codepen.io', 'jsfiddle.net', 'replit.com',
-    'codesandbox.io', 'glitch.com', 'heroku.com', 'vercel.app', 'netlify.app',
-    'railway.app', 'render.com', 'fly.io', 'cloudflare.com', 'pages.dev',
-    'sourceforge.net', 'launchpad.net', 'gnu.org', 'fsf.org', 'opensource.org',
-    
-    # Cloud & Enterprise Software
-    'salesforce.com', 'oracle.com', 'ibm.com', 'sap.com', 'vmware.com', 'dell.com',
-    'atlassian.com', 'atlassian.net', 'jira.com', 'confluence.com', 'servicenow.com',
-    'workday.com', 'zendesk.com', 'hubspot.com', 'mailchimp.com', 'intuit.com',
-    'quickbooks.com', 'xero.com', 'freshworks.com', 'freshdesk.com', 'intercom.com',
-    'segment.com', 'mixpanel.com', 'amplitude.com', 'datadog.com', 'splunk.com',
-    'tableau.com', 'powerbi.microsoft.com', 'looker.com', 'grafana.com',
-    
-    # Collaboration & Productivity Tools
-    'slack.com', 'zoom.us', 'teams.microsoft.com', 'webex.com', 'gotomeeting.com',
-    'meet.google.com', 'hangouts.google.com', 'skype.com', 'whereby.com', 'jitsi.org',
-    'notion.so', 'asana.com', 'trello.com', 'monday.com', 'airtable.com', 'clickup.com',
-    'basecamp.com', 'wrike.com', 'smartsheet.com', 'miro.com', 'mural.co',
-    'dropbox.com', 'box.com', 'onedrive.live.com', 'drive.google.com', 'sync.com',
-    'mega.nz', 'pcloud.com', 'tresorit.com', 'egnyte.com', 'sharefile.com',
-    'evernote.com', 'onenote.com', 'simplenote.com', 'bear.app', 'roamresearch.com',
-    
-    # E-commerce & Retail
-    'paypal.com', 'stripe.com', 'square.com', 'shopify.com', 'ebay.com', 'ebay.co.uk',
-    'etsy.com', 'walmart.com', 'target.com', 'bestbuy.com', 'aliexpress.com',
-    'alibaba.com', 'amazon.co.uk', 'amazon.de', 'amazon.ca', 'amazon.in', 'amazon.fr',
-    'amazon.es', 'amazon.it', 'amazon.jp', 'amazon.com.au', 'amazon.com.br',
-    'costco.com', 'samsclub.com', 'homedepot.com', 'lowes.com', 'ikea.com',
-    'wayfair.com', 'overstock.com', 'newegg.com', 'bhphotovideo.com', 'adorama.com',
-    'rakuten.com', 'mercari.com', 'poshmark.com', 'depop.com', 'grailed.com',
-    
-    # Payment & Financial Tech
-    'venmo.com', 'cashapp.com', 'zelle.com', 'payoneer.com', 'wise.com', 'revolut.com',
-    'n26.com', 'monzo.com', 'chime.com', 'plaid.com', 'braintreepayments.com',
-    'adyen.com', 'checkout.com', 'klarna.com', 'afterpay.com', 'affirm.com',
-    
-    # Streaming & Entertainment
-    'netflix.com', 'hulu.com', 'disneyplus.com', 'hbomax.com', 'max.com', 'primevideo.com',
-    'spotify.com', 'soundcloud.com', 'pandora.com', 'twitch.tv', 'kick.com',
-    'steam.com', 'steampowered.com', 'deezer.com', 'tidal.com', 'applemusic.com',
-    'music.apple.com', 'music.youtube.com', 'crunchyroll.com', 'funimation.com',
-    'paramountplus.com', 'peacocktv.com', 'showtime.com', 'starz.com', 'sling.com',
-    'vudu.com', 'fandango.com', 'imdb.com', 'rottentomatoes.com', 'metacritic.com',
-    
-    # Education & Learning
-    'wikipedia.org', 'wikimedia.org', 'coursera.org', 'udemy.com', 'edx.org', 'udacity.com',
-    'khanacademy.org', 'skillshare.com', 'pluralsight.com', 'linkedin-learning.com',
-    'masterclass.com', 'brilliant.org', 'codecademy.com', 'freecodecamp.org', 'w3schools.com',
-    'mdn.mozilla.org', 'developer.mozilla.org', 'geeksforgeeks.org', 'tutorialspoint.com',
-    'mit.edu', 'stanford.edu', 'harvard.edu', 'yale.edu', 'princeton.edu', 'columbia.edu',
-    'berkeley.edu', 'caltech.edu', 'uchicago.edu', 'upenn.edu', 'cornell.edu',
-    'oxford.ac.uk', 'cambridge.ac.uk', 'imperial.ac.uk', 'ucl.ac.uk', 'ed.ac.uk',
-    'cambridge.org', 'oup.com', 'springer.com', 'sciencedirect.com', 'jstor.org',
-    'researchgate.net', 'academia.edu', 'scholar.google.com', 'arxiv.org', 'ssrn.com',
-    'medium.com', 'substack.com', 'dev.to', 'hashnode.com', 'hackernoon.com',
-    
-    # News & Media
-    'nytimes.com', 'washingtonpost.com', 'theguardian.com', 'bbc.com', 'bbc.co.uk',
-    'cnn.com', 'foxnews.com', 'nbcnews.com', 'cbsnews.com', 'abcnews.go.com',
-    'reuters.com', 'apnews.com', 'bloomberg.com', 'wsj.com', 'ft.com', 'forbes.com',
-    'businessinsider.com', 'economist.com', 'time.com', 'newsweek.com', 'usatoday.com',
-    'latimes.com', 'chicagotribune.com', 'sfchronicle.com', 'bostonglobe.com',
-    'techcrunch.com', 'wired.com', 'theverge.com', 'engadget.com', 'arstechnica.com',
-    'cnet.com', 'zdnet.com', 'pcmag.com', 'tomshardware.com', 'anandtech.com',
-    'vice.com', 'vox.com', 'buzzfeed.com', 'huffpost.com', 'politico.com', 'thehill.com',
-    
-    # Software & Design Tools
-    'adobe.com', 'adobelogin.com', 'autodesk.com', 'figma.com', 'canva.com', 'sketch.com',
-    'invisionapp.com', 'zeplin.io', 'framer.com', 'webflow.com', 'squarespace.com',
-    'wix.com', 'wordpress.com', 'wordpress.org', 'wp.com', 'tumblr.com', 'blogger.com',
-    'ghost.org', 'drupal.org', 'joomla.org', 'contentful.com', 'sanity.io', 'strapi.io',
-    'unity.com', 'unrealengine.com', 'godotengine.org', 'blender.org', 'gimp.org',
-    'inkscape.org', 'krita.org', 'affinity.serif.com', 'corel.com', 'sketchup.com',
-    
-    # DevOps & Infrastructure
-    'docker.com', 'kubernetes.io', 'terraform.io', 'ansible.com', 'puppet.com', 'chef.io',
-    'jenkins.io', 'travis-ci.org', 'circleci.com', 'gitlab.com', 'actions.github.com',
-    'buildkite.com', 'teamcity.jetbrains.com', 'bamboo.atlassian.com', 'octopus.com',
-    'pagerduty.com', 'opsgenie.com', 'statuspage.io', 'pingdom.com', 'newrelic.com',
-    'sentry.io', 'rollbar.com', 'bugsnag.com', 'loggly.com', 'papertrail.com',
-    'sumologic.com', 'elastic.co', 'mongodb.com', 'redis.io', 'postgresql.org',
-    
-    # Security & Privacy
-    'okta.com', 'auth0.com', 'duo.com', 'onelogin.com', 'ping.com', 'jumpcloud.com',
-    'lastpass.com', '1password.com', 'bitwarden.com', 'dashlane.com', 'keepass.info',
-    'nordvpn.com', 'expressvpn.com', 'surfshark.com', 'protonvpn.com', 'privatevpn.com',
-    'malwarebytes.com', 'norton.com', 'mcafee.com', 'kaspersky.com', 'bitdefender.com',
-    'avast.com', 'avg.com', 'sophos.com', 'crowdstrike.com', 'fortinet.com',
-    'cloudflare.com', 'akamai.com', 'fastly.com', 'imperva.com', 'f5.com',
-    
-    # Domain & Hosting
-    'namecheap.com', 'godaddy.com', 'name.com', 'gandi.net', 'hover.com', 'dynadot.com',
-    'bluehost.com', 'hostgator.com', 'dreamhost.com', 'siteground.com', 'inmotion.com',
-    'a2hosting.com', 'wpengine.com', 'kinsta.com', 'cloudways.com', 'digitalocean.com',
-    'linode.com', 'vultr.com', 'ovh.com', 'hetzner.com', 'contabo.com',
-    
-    # Email & Communication
-    'gmail.com', 'googlemail.com', 'outlook.com', 'hotmail.com', 'yahoo.com', 'aol.com',
-    'protonmail.com', 'proton.me', 'tutanota.com', 'mailbox.org', 'posteo.de',
-    'zoho.com', 'fastmail.com', 'mail.com', 'gmx.com', 'yandex.com', 'icloud.com',
-    'office.com', 'office365.com', 'exchange.microsoft.com', 'mail.google.com',
-    'docs.google.com', 'sheets.google.com', 'slides.google.com', 'forms.google.com',
-    'calendar.google.com', 'keep.google.com', 'sites.google.com',
-    'sendgrid.com', 'mailgun.com', 'mailjet.com', 'sendinblue.com', 'constantcontact.com',
-    
-    # Gaming & Entertainment
-    'epicgames.com', 'unrealengine.com', 'fortnite.com', 'riotgames.com', 'leagueoflegends.com',
-    'blizzard.com', 'battle.net', 'ea.com', 'origin.com', 'ubisoft.com', 'ubi.com',
-    'rockstargames.com', 'square-enix.com', 'squareenix.com', 'bandainamco.com',
-    'nintendo.com', 'nintendo.co.jp', 'playstation.com', 'sony.com', 'xbox.com',
-    'minecraft.net', 'mojang.com', 'roblox.com', 'unity.com', 'itch.io', 'gog.com',
-    'humblebundle.com', 'greenmangaming.com', 'fanatical.com', 'gamersgate.com',
-    'discord.gg', 'discordapp.com', 'teamspeak.com', 'ventrilo.com', 'mumble.info',
-    
-    # Financial Services & Banking
-    'chase.com', 'jpmorganchase.com', 'bankofamerica.com', 'wellsfargo.com', 'citibank.com',
-    'citi.com', 'usbank.com', 'pnc.com', 'truist.com', 'tdbank.com', 'bbt.com',
-    'americanexpress.com', 'amex.com', 'capitalone.com', 'discover.com', 'synchrony.com',
-    'fidelity.com', 'schwab.com', 'tdameritrade.com', 'etrade.com', 'interactivebrokers.com',
-    'robinhood.com', 'webull.com', 'coinbase.com', 'binance.com', 'kraken.com',
-    'gemini.com', 'blockchain.com', 'crypto.com', 'ftx.com', 'bitfinex.com',
-    'vanguard.com', 'blackrock.com', 'statestreet.com', 'morganstanley.com',
-    'goldmansachs.com', 'jpmorganonline.com', 'merrilledge.com', 'ally.com',
-    
-    # Government & Official Organizations
-    'gov.uk', 'gov.ie', 'gov.au', 'gov.ca', 'gov.nz', 'gov.sg', 'gov.in',
-    'usa.gov', 'whitehouse.gov', 'state.gov', 'defense.gov', 'justice.gov',
-    'irs.gov', 'ssa.gov', 'cdc.gov', 'fda.gov', 'epa.gov', 'nih.gov', 'nasa.gov',
-    'sec.gov', 'ftc.gov', 'fcc.gov', 'fema.gov', 'dhs.gov', 'treasury.gov',
-    'europa.eu', 'ec.europa.eu', 'un.org', 'who.int', 'unicef.org', 'unesco.org',
-    'worldbank.org', 'imf.org', 'oecd.org', 'wto.org', 'nato.int', 'icrc.org',
-    'redcross.org', 'ifrc.org', 'redcrossblood.org', 'savethechildren.org',
-    'oxfam.org', 'msf.org', 'doctorswithoutborders.org', 'amnesty.org', 'hrw.org',
-    'mozilla.org', 'apache.org', 'linux.org', 'debian.org', 'ubuntu.com', 'redhat.com',
-    'kernel.org', 'python.org', 'nodejs.org', 'rust-lang.org', 'golang.org', 'php.net',
-    
-    # Travel & Transportation
-    'booking.com', 'priceline.com', 'hotels.com', 'expedia.com', 'hotwire.com', 'kayak.com',
-    'trivago.com', 'tripadvisor.com', 'airbnb.com', 'vrbo.com', 'homeaway.com',
-    'agoda.com', 'hostelworld.com', 'hipmunk.com', 'skyscanner.com', 'orbitz.com',
-    'uber.com', 'lyft.com', 'doordash.com', 'grubhub.com', 'ubereats.com', 'postmates.com',
-    'instacart.com', 'shipt.com', 'gopuff.com', 'getir.com', 'deliveroo.com',
-    'delta.com', 'united.com', 'american.com', 'aa.com', 'southwest.com', 'jetblue.com',
-    'alaskaair.com', 'spirit.com', 'frontier.com', 'britishairways.com', 'lufthansa.com',
-    'airfrance.com', 'klm.com', 'emirates.com', 'qantas.com', 'ana.co.jp', 'jal.co.jp',
-    'marriott.com', 'hilton.com', 'hyatt.com', 'ihg.com', 'choicehotels.com',
-    'bestwestern.com', 'wyndham.com', 'radisson.com', 'accor.com', 'mgmresorts.com',
-    'caesars.com', 'subway.com', 'hertz.com', 'enterprise.com', 'avis.com', 'budget.com',
-    
-    # Health & Medical
-    'mayoclinic.org', 'clevelandclinic.org', 'hopkinsmedicine.org', 'webmd.com',
-    'healthline.com', 'medlineplus.gov', 'nih.gov', 'cdc.gov', 'fda.gov', 'who.int',
-    'drugs.com', 'rxlist.com', 'cvs.com', 'walgreens.com', 'riteaid.com',
-    'kaiser.com', 'kp.org', 'bcbs.com', 'unitedhealthcare.com', 'aetna.com',
-    'cigna.com', 'humana.com', 'anthem.com', 'wellcare.com', 'centene.com',
-    
-    # Telecommunications
-    'att.com', 'verizon.com', 'vzw.com', 't-mobile.com', 'sprint.com', 'xfinity.com',
-    'comcast.com', 'spectrum.com', 'cox.com', 'centurylink.com', 'frontier.com',
-    'vodafone.com', 'orange.com', 'telefonica.com', 'bt.com', 'sky.com', 'virginmedia.com',
-    
-    # Additional Major Brands
-    'coca-cola.com', 'pepsi.com', 'starbucks.com', 'mcdonalds.com', 'burgerking.com',
-    'tacobell.com', 'pizzahut.com', 'kfc.com', 'chipotle.com', 'dominos.com',
-    'nike.com', 'adidas.com', 'puma.com', 'underarmour.com', 'reebok.com',
-    'gap.com', 'oldnavy.com', 'bananarepublic.com', 'zara.com', 'hm.com', 'uniqlo.com',
-    'macys.com', 'nordstrom.com', 'bloomingdales.com', 'saksfifthavenue.com', 'neimanmarcus.com',
-    'toyota.com', 'ford.com', 'gm.com', 'honda.com', 'nissan.com', 'bmw.com',
-    'mercedes-benz.com', 'audi.com', 'volkswagen.com', 'tesla.com', 'porsche.com'
-}
-
-# URL shortener domains - exact matches only
-URL_SHORTENERS = {
-    'bit.ly', 'tinyurl.com', 'goo.gl', 't.co', 'ow.ly', 'is.gd',
-    'buff.ly', 'adf.ly', 'short.link', 'tiny.cc', 'rb.gy'
-}
 
 class MaliciousURLDetector(nn.Module):
     def __init__(self, input_dim, hidden_dims=[768, 512, 256, 128], dropout_rate=0.4, use_batch_norm=True):
@@ -742,16 +546,17 @@ async def predict_url(request: URLRequest):
         malicious_prob = float(probs[1])
         benign_prob = float(probs[0])
         
-        is_malicious = bool(prediction == 1)
-        confidence = malicious_prob if is_malicious else benign_prob
-        
-        # Apply legitimate domain override if confidence is not extremely high
-        if is_legit_domain and is_malicious and malicious_prob < 0.995:
-            logger.info(f"✓ Legitimate domain detected: {hostname}. Adjusting prediction.")
-            # Don't completely override, but flag for review
+        # Apply legitimate domain override
+        if is_legit_domain:
+            logger.info(f"✓ Legitimate domain detected: {hostname}. Overriding prediction to Benign.")
             is_malicious = False
+            malicious_prob = 0.05  # Low malicious probability (5%)
+            benign_prob = 0.95     # High benign probability (95%)
             confidence = benign_prob
             prediction = 0
+        else:
+            is_malicious = bool(prediction == 1)
+            confidence = malicious_prob if is_malicious else benign_prob
         
         # Debug
         debug_info = None
@@ -827,7 +632,7 @@ async def predict_url(request: URLRequest):
                 "scaling_applied": scaler is not None,
                 "device_used": str(device),
                 "note": "Prediction based on base URL only (parameters and hash excluded)" + 
-                       (" | Whitelist override applied" if is_legit_domain and malicious_prob < 0.995 and is_malicious == False else "")
+                       (" | Whitelist override applied" if is_legit_domain else "")
             },
             debug_info=debug_info
         )
@@ -903,8 +708,22 @@ async def predict_csv(file: UploadFile = File(...)):
             malicious_prob = float(probabilities_np[i][1])
             benign_prob = float(probabilities_np[i][0])
             
-            is_malicious = bool(predictions_np[i] == 1)
-            confidence = malicious_prob if is_malicious else benign_prob
+            # Check if URL is in legitimate domains
+            current_url = original_urls[i]
+            is_legit = False
+            if isinstance(current_url, str) and current_url.startswith(('http://', 'https://')):
+                parsed_url = urlparse(current_url)
+                is_legit = is_legitimate_domain(parsed_url.netloc)
+            
+            # Override for legitimate domains
+            if is_legit:
+                is_malicious = False
+                malicious_prob = 0.05  # Low malicious probability (5%)
+                benign_prob = 0.95     # High benign probability (95%)
+                confidence = benign_prob
+            else:
+                is_malicious = bool(predictions_np[i] == 1)
+                confidence = malicious_prob if is_malicious else benign_prob
             
             if is_malicious:
                 malicious_count += 1
